@@ -163,7 +163,7 @@
         //创建描述
         ctx.font="14px 微软雅黑";
         ctx.fillStyle = '#555';
-        ctx.fillText("576",box1.x-10,box1.y-20);
+        ctx.fillText("578",box1.x-10,box1.y-20);
 
         ctx.closePath();
       }
