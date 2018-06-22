@@ -156,14 +156,14 @@
         ctx.stroke();
         //创建指示线
         ctx.moveTo(box1.x, box1.y);
-        ctx.lineTo(box1.x, box1.y-50);
+        ctx.lineTo(box1.x, box1.y-20);
         ctx.strokeStyle = "#555";
         ctx.lineWidth = 1;
         ctx.stroke();
         //创建描述
         ctx.font="14px 微软雅黑";
         ctx.fillStyle = '#555';
-        ctx.fillText("576",box1.x-10,box1.y-50);
+        ctx.fillText("576",box1.x-10,box1.y-20);
 
         ctx.closePath();
       }
