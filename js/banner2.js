@@ -5,7 +5,7 @@
   let init_num = max_particles;
   let max_time = frequency * max_particles;
   let time_to_recreate = false;
-
+  let text_line=24;
   // Enable repopolate
   setTimeout(function () {
     time_to_recreate = true;
@@ -14,29 +14,30 @@
   // Popolate particles
   popolate(max_particles);
 
-  var canvas = document.getElementById('banner2');
-  canvas.width = $(window).width();
-  canvas.height = 500;
+  let canvas = document.getElementById('banner2');
+  canvas.width = screen.availWidth;
+  canvas.height = 600;
   //$("body").append(canvas);
-
-  var ctx = canvas.getContext('2d');
+  let ctx = canvas.getContext('2d');
 
   class Particle {
     constructor(ctx, options) {
       console.log(canvas.height)
       let colors = ["#00b2f3", "#3c6a9d", "#ab4d4f", "#8d0730", "#6f0032"]
+      let array = ["578", "678", "499", "322", "667", '628', '417', '325', '400', '390', '理科状元', '文科状元', '语文', '数学', '英语', '物理', '生物', '化学', '历史', '地理', '政治', '北京大学', '清华大学', '湖南大学', '武汉大学', '中南大学', '计算机', '园林设计', '土木工程', '金融专业']
       let types = ["full", "fill", "empty"]
       this.random = Math.random()
       this.ctx = ctx;
       this.progress = 0;
-
-      this.x = (canvas.width / 2) + (Math.random() * 200 - Math.random() * 200)
-      this.y = (canvas.height / 2) + (Math.random() * 200 - Math.random() * 200)
+      
       this.w = canvas.width
       this.h = canvas.height
-      this.radius = 1 + (15 * this.random)
+      this.x = (canvas.width / 2) + (Math.random() * 200- Math.random() * 200)
+      this.y = (canvas.height / 2) + (Math.random() * 200 - Math.random() * 200)
+      this.radius = 4 + (15 * this.random)
       this.type = types[this.randomIntFromInterval(0, types.length - 1)];
       this.color = colors[this.randomIntFromInterval(0, colors.length - 1)];
+      this.text = array[this.randomIntFromInterval(0, array.length - 1)];
       this.a = 0
       this.s = (this.radius + (Math.random() * 1)) / 10;
     }
@@ -60,16 +61,25 @@
         case "full":
           this.createArcFill(this.radius, color)
           this.createArcEmpty(this.radius + lineWidth, lineWidth / 2, color)
+          this.createText(this.radius)
           break;
         case "fill":
           this.createArcFill(this.radius, color)
+          this.createText(this.radius)
           break;
         case "empty":
           this.createArcEmpty(this.radius, lineWidth, color)
+          this.createText(this.radius)
           break;
       }
     }
-
+    createText (radius) {
+      this.ctx.beginPath();
+      ctx.font = "14px 微软雅黑";
+      ctx.fillStyle = '#aaa';
+      ctx.fillText(this.text, this.x-this.text.length*7, this.y -radius-5); 
+      this.ctx.closePath();
+    }
     createArcFill (radius, color) {
       this.ctx.beginPath();
       this.ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI);
@@ -122,7 +132,7 @@
    * @num:number number of particles
    */
   function popolate (num) {
-    for (var i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++) {
       setTimeout(
         function (x) {
           return function () {
@@ -136,10 +146,10 @@
   }
 
   function clear () {
-    // ctx.globalAlpha=0.04;
-    ctx.fillStyle = '#111';
+     //ctx.globalAlpha=0.4;
+    ctx.fillStyle = '#0f2249';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // ctx.globalAlpha=1;
+   // ctx.globalAlpha=1;
   }
 
   function connection () {
@@ -152,18 +162,18 @@
         ctx.moveTo(box1.x, box1.y);
         ctx.lineTo(box2.x, box2.y);
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "#3f47ff";
+        ctx.strokeStyle = "#aaa";
         ctx.stroke();
-        //创建指示线
+        /* //创建指示线
         ctx.moveTo(box1.x, box1.y);
-        ctx.lineTo(box1.x, box1.y-20);
+        ctx.lineTo(box1.x, box1.y - 20);
         ctx.strokeStyle = "#555";
         ctx.lineWidth = 1;
         ctx.stroke();
         //创建描述
-        ctx.font="14px 微软雅黑";
+        ctx.font = "14px 微软雅黑";
         ctx.fillStyle = '#555';
-        ctx.fillText("578",box1.x-10,box1.y-20);
+        ctx.fillText("578", box1.x - 10, box1.y - 20); */
 
         ctx.closePath();
       }
