@@ -6,6 +6,7 @@
   let max_time = frequency * max_particles;
   let time_to_recreate = false;
   let text_line=24;
+  
   // Enable repopolate
   setTimeout(function () {
     time_to_recreate = true;
