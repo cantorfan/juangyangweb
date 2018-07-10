@@ -11,6 +11,7 @@ var postcss = require("gulp-postcss");
 var cssnano = require("cssnano");
 var pxtorem = require("gulp-pxtorem");
 var autoprefixer = require("autoprefixer");
+const babel = require('gulp-babel');
 
 var paths = {
   sass: ['./style/*.scss']
@@ -29,6 +30,7 @@ gulp.task('serve', function () {
   gulp.src('.')
     .pipe(open(options));
   gulp.watch(paths.sass, ['sass']);
+  gulp.watch('./js/banner.js', ['babel']);
   gulp.watch(['./style/*.css', './js/*.js', './**/*.html'], function (file) {
     dev_server.notify.apply(dev_server, [file]);
   });
@@ -55,5 +57,15 @@ gulp.task('sass', function (done) {
     .pipe(gulp.dest('./style/'))
     .on('end', done);
 });
-
+gulp.task('babel', function () {
+  gulp.src('js/banner.js')
+    .pipe(babel({
+      presets: ['env']
+    }))
+    .pipe(uglify())
+    .pipe(rename({
+      extname: '.min.js'
+    }))
+    .pipe(gulp.dest('./js/'))
+});
 

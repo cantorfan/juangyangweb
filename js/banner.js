@@ -5,8 +5,8 @@
   let init_num = max_particles;
   let max_time = frequency * max_particles;
   let time_to_recreate = false;
-  let text_line=24;
-  
+  let text_line = 24;
+
   // Enable repopolate
   setTimeout(function () {
     time_to_recreate = true;
@@ -23,18 +23,16 @@
 
   class Particle {
     constructor(ctx, options) {
-      console.log(canvas.height)
-      let colors = ["#00b2f3", "#3c6a9d", "#ab4d4f", "#8d0730", "#6f0032"]
+      let colors = ["rgba(0, 178, 243, 1)", "	rgba(60, 106, 157, 1)", "	rgba(171, 77, 79, 1)", "rgba(141, 7, 48, 1)", "	rgba(111, 0, 50, 1"]
       let array = ["578", "678", "499", "322", "667", '628', '417', '325', '400', '390', '理科状元', '文科状元', '语文', '数学', '英语', '物理', '生物', '化学', '历史', '地理', '政治', '北京大学', '清华大学', '湖南大学', '武汉大学', '中南大学', '计算机', '园林设计', '土木工程', '金融专业']
       let types = ["full", "fill", "empty"]
       this.random = Math.random()
       this.ctx = ctx;
       this.progress = 0;
-      
       this.w = canvas.width
       this.h = canvas.height
-      this.x = (canvas.width / 2) + (Math.random() * 200- Math.random() * 200)
-      this.y = (canvas.height / 2) + (Math.random() * 200 - Math.random() * 200)
+      this.x = (canvas.width / 2) + (Math.random() * 500 - Math.random() * 500)
+      this.y = (canvas.height / 2) + (Math.random() * 300 - Math.random() * 300)
       this.radius = 4 + (15 * this.random)
       this.type = types[this.randomIntFromInterval(0, types.length - 1)];
       this.color = colors[this.randomIntFromInterval(0, colors.length - 1)];
@@ -53,7 +51,6 @@
     randomIntFromInterval (min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
-
     render () {
       // Create arc
       let lineWidth = 0.2 + (2.8 * this.random);
@@ -78,7 +75,7 @@
       this.ctx.beginPath();
       ctx.font = "14px 微软雅黑";
       ctx.fillStyle = '#aaa';
-      ctx.fillText(this.text, this.x-this.text.length*7, this.y -radius-5); 
+      ctx.fillText(this.text, this.x - this.text.length * 7, this.y - radius - 5);
       this.ctx.closePath();
     }
     createArcFill (radius, color) {
@@ -143,14 +140,15 @@
         }(i)
         , frequency * i);
     }
+    console.log(particles.length);
     return particles.length
   }
 
   function clear () {
-     //ctx.globalAlpha=0.4;
+    //ctx.globalAlpha=0.4;
     ctx.fillStyle = '#0f2249';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-   // ctx.globalAlpha=1;
+    // ctx.globalAlpha=1;
   }
 
   function connection () {
@@ -159,11 +157,16 @@
       if (i > 0) {
         let box1 = old_element.getCoordinates()
         let box2 = element.getCoordinates()
+        let a = Math.abs(box2.x - box1.x),
+          b = Math.abs(box2.y - box1.y);
+        let lineLength = Math.sqrt(a * a + b * b);
+        let c = 1 / lineLength * 60 - 0.009;
+        let lineOpacity = c > 1 ? 1 : c;
         ctx.beginPath();
         ctx.moveTo(box1.x, box1.y);
         ctx.lineTo(box2.x, box2.y);
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "#aaa";
+        ctx.strokeStyle ='rgba(255,255,255,' + lineOpacity + ')';
         ctx.stroke();
         /* //创建指示线
         ctx.moveTo(box1.x, box1.y);
